@@ -16,7 +16,8 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-COMMANDANDARGS=$1
+COMMAND=$1
+shift
 
 create_user () {
     addgroup -g $2 app
@@ -25,6 +26,9 @@ create_user () {
 }
 
 show_info () {
+    if [ "$(printenv VERBOSE)" == "" ]; then
+        return;
+    fi
     echo ""
     echo "#=========================================================="
     echo "# runas: $1"
@@ -46,4 +50,4 @@ else
     fi
 fi
 
-su - app -c "$COMMANDANDARGS"
+su app -c "$COMMAND $*"
